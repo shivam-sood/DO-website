@@ -1,127 +1,304 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Discrete Optimization</title>
-  <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'><link rel="stylesheet" href="./style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<html lang="en">
 
+  <head>
+  <meta charset="utf-8">
+
+  <!-- Enable responsiveness on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>
+    
+      Discrete Optimization
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/syntax.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700%7CSource+Sans+Pro:400,400i,700,700i&subset=greek,greek-ext,latin-ext" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon" sizes="144x144" href="/static/apple-touch-icon-144x144.png">
 </head>
-<body>
-<!-- partial:index.partial.html -->
-<aside class="sidebar">
-  <div id="leftside-navigation" class="nano">
-    <ul class="nano-content">
-      <li>
-        <a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>UI Elements</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
 
-          <li><a href="ui-alerts-notifications.html">Alerts &amp; Notifications</a>
-          </li>
-          <li><a href="ui-panels.html">Panels</a>
-          </li>
-          <li><a href="ui-buttons.html">Buttons</a>
-          </li>
-          <li><a href="ui-slider-progress.html">Sliders &amp; Progress</a>
-          </li>
-          <li><a href="ui-modals-popups.html">Modals &amp; Popups</a>
-          </li>
-          <li><a href="ui-icons.html">Icons</a>
-          </li>
-          <li><a href="ui-grid.html">Grid</a>
-          </li>
-          <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a>
-          </li>
-          <li><a href="ui-nestable-list.html">Nestable Lists</a>
-          </li>
-        </ul>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>Tables</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li><a href="tables-basic.html">Basic Tables</a>
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Discrete Optimization</h1>
+      <p class="tagline"># Team R</p>
+    </div>
+
+    <input type="checkbox" id="menu-icon">
+    <label class="menu-label" for="menu-icon"></label>
+    <div class="trigger">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="#">Home</a>
+        </li>
+
+        
+        
+          
+            
+          
+        
+          
+        
+          
+            
+              
+                <li class="sidebar-nav-item">
+                  <a href="/archive/">Archive</a>
+                </li>
+              
+            
+          
+        
+          
+        
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+              
+                <li class="sidebar-nav-item">
+                  <a href="/projects/">Projects</a>
+                </li>
+              
+            
+          
+        
+          
+        
+          
+        
+          
+            
+          
+        
+
+        
+          <li class="sidebar-nav-item">
+            <a href="https://www.anish.io/">Research</a>
           </li>
 
-          <li><a href="tables-data.html">Data Tables</a>
+
+          <li class="sidebar-nav-item">
+            <a href="Local_search.html">Local Search notes</a>
           </li>
-        </ul>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa fa-tasks"></i><span>Forms</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li><a href="forms-components.html">Components</a>
-          </li>
-          <li><a href="forms-validation.html">Validation</a>
-          </li>
-          <li><a href="forms-mask.html">Mask</a>
-          </li>
-          <li><a href="forms-wizard.html">Wizard</a>
-          </li>
-          <li><a href="forms-multiple-file.html">Multiple File Upload</a>
-          </li>
-          <li><a href="forms-wysiwyg.html">WYSIWYG Editor</a>
-          </li>
-        </ul>
-      </li>
-      <li class="sub-menu active">
-        <a href="javascript:void(0);"><i class="fa fa-envelope"></i><span>Mail</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li class="active"><a href="mail-inbox.html">Inbox</a>
-          </li>
-          <li><a href="mail-compose.html">Compose Mail</a>
-          </li>
-        </ul>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa-bar-chart-o"></i><span>Charts</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li><a href="charts-chartjs.html">Chartjs</a>
-          </li>
-          <li><a href="charts-morris.html">Morris</a>
-          </li>
-          <li><a href="charts-c3.html">C3 Charts</a></li>
-        </ul>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa-map-marker"></i><span>Maps</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li><a href="map-google.html">Google Map</a>
-          </li>
-          <li><a href="map-vector.html">Vector Map</a>
-          </li>
-        </ul>
-      </li>
-      <li class="sub-menu">
-        <a href="typography.html"><i class="fa fa-text-height"></i><span>Typography</span></a>
-      </li>
-      <li class="sub-menu">
-        <a href="javascript:void(0);"><i class="fa fa-file"></i><span>Pages</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-        <ul>
-          <li><a href="pages-blank.html">Blank Page</a>
-          </li>
-          <li><a href="pages-login.html">Login</a>
-          </li>
-          <li><a href="pages-sign-up.html">Sign Up</a>
-          </li>
-          <li><a href="pages-calendar.html">Calendar</a>
-          </li>
-          <li><a href="pages-timeline.html">Timeline</a>
-          </li>
-          <li><a href="pages-404.html">404</a>
-          </li>
-          <li><a href="pages-500.html">500</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
+        
+
+      </ul>
+    </div>
+
+    <p class="copyright">&copy; 2020. All rights reserved.</p>
   </div>
-</aside>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script><script  src="./script.js"></script>
+</div>
 
-</body>
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Gemini: A Modern LaTeX Poster Theme</h1>
+  
+
+
+
+
+
+
+
+
+
+<span class="post-info">
+  19 Jul 2018
+  &middot; 3 min read
+  
+    &mdash; shared on
+    
+      
+        
+        
+        <a href="https://lobste.rs/s/obcwgd/gemini_modern_latex_poster_theme">Lobsters</a>,
+      
+        
+        
+        <a href="https://www.reddit.com/r/LaTeX/comments/9070lw/gemini_a_modern_latex_poster_theme/">Reddit</a> and 
+      
+        
+        
+        <a href="https://twitter.com/anishathalye/status/1019971930710007808">Twitter</a>
+      
+    
+  
+</span>
+
+  <p>Programs like PowerPoint, Keynote, and Adobe Illustrator are common tools for
+designing posters, but these programs have a number of disadvantages, including
+lack of <a href="https://en.wikipedia.org/wiki/Separation_of_content_and_presentation">separation of content and presentation</a> and lack of
+programmatic control over the output. Designing posters using these programs
+can require countless hours calculating positions of elements by hand, manually
+laying out content, manually propagating style changes, and repeating these
+kinds of tasks over and over again during the iterative process of poster
+design.</p>
+
+<p>The idea of using a document preparation system like <a href="https://www.latex-project.org/">LaTeX</a> to implement a
+poster using code sounds fantastic, and indeed, there are a number of LaTeX
+<a href="https://www.latextemplates.com/cat/conference-posters">templates</a> and packages for making posters, such as <a href="https://ctan.org/pkg/a0poster">a0poster</a>, <a href="https://ctan.org/pkg/sciposter">sciposter</a>,
+and <a href="https://ctan.org/pkg/beamerposter">beamerposter</a>. However, I didn’t like the look of the <a href="https://www.google.com/search?q=latex+poster+template&amp;tbm=isch">existing</a> themes
+and templates — they all looked 20 years old — and this is what kept me
+from using LaTeX for making posters, even though I had been using the software
+for years for authoring documents.</p>
+
+<p>I finally bit the bullet and spent some time designing a clean, stylish, and
+minimal poster theme for LaTeX, building on top of the beamerposter package.
+The result has been open-sourced as <a href="https://github.com/anishathalye/gemini">Gemini</a>, and it makes it really easy to
+design posters that look like <a href="/media/2018/07/19/poster.pdf">this</a>:</p>
+
+<p><img src="/media/2018/07/19/poster.png" alt="Poster example" /></p>
+
+<div id="x-continue-reading"></div>
+
+<h1 id="why-latex">Why LaTeX?</h1>
+
+<p>There are a number of programs commonly used for making academic posters. These
+include:</p>
+
+<ul>
+  <li>Word processing programs (e.g. Word, Pages, and LibreOffice Writer)</li>
+  <li>Presentation programs (e.g. PowerPoint, Keynote, and LibreOffice Impress)</li>
+  <li>Vector editing programs (e.g. Adobe Illustrator and Inkscape)</li>
+</ul>
+
+<p>Why use LaTex over these programs? The biggest benefit is that LaTeX does not
+require manual effort to lay out contents and apply a uniform style to the
+entire poster. All layout and styling is done using code relying on TeX’s
+sophisticated layout algorithms, and there is a clean separation of content and
+presentation, similar to the content/style separation in HTML/CSS.</p>
+
+<p>There are other benefits as well. TeX is a sophisticated typesetting system
+that produces excellent results for text as well as mathematical formulae;
+LaTeX packages provide support for <a href="https://ctan.org/pkg/pgfplots?lang=en">plotting</a> and algorithmically
+specified <a href="https://ctan.org/pkg/pgf">diagrams and vector graphics</a>; and beamer provides support for
+column-based layout, including variable-width and nested columns. This means
+that all content in the poster, not just the text, can be produced using code:
+no more screenshots of mathematical equations; no more positioning shapes with
+the mouse to create diagrams; no more screenshots of plots where the styling
+doesn’t quite match the style of the poster; and no more manual positioning of
+blocks.</p>
+
+<h1 id="a-modern-latex-poster-theme">A modern LaTeX poster theme</h1>
+
+<p>Building posters with LaTeX is by far a better experience than using
+PowerPoint, Keynote, or Illustrator. I felt that the one thing missing was an
+aesthetically pleasing poster theme. There’s no reason a poster designed using
+LaTeX should look any less beautiful than a poster made using graphic design
+software like Adobe Illustrator.</p>
+
+<p>This is what led to the creation of <a href="https://github.com/anishathalye/gemini">Gemini</a>, a LaTex poster theme with a focus
+on being clean, minimal, and looking great out of the box while being
+customizable:</p>
+
+<p><img src="/media/2018/07/19/poster-gemini.png" alt="Gemini default theme example" /></p>
+
+<p><img src="/media/2018/07/19/poster-mit.png" alt="MIT theme example" /></p>
+
+<p>The theme is actually a pretty small amount of code; most of the functionality
+is provided by LaTeX and beamerposter. But making conscious choices on title
+and block layout, font families, font weights, color schemes, and other little
+details makes a pretty big difference in how the poster looks and feels.</p>
+
+</div>
+
+<div class="related">
+  <h2>Recent Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2020/08/03/periscope/">
+            Organizing Data Through the Lens of Deduplication
+            <small>03 Aug 2020</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2019/12/12/constraint-based-graphic-design/">
+            Experiments in Constraint-based Graphic Design
+            <small>12 Dec 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2018/04/03/macbook-touchscreen/">
+            Turning a MacBook into a Touchscreen with $1 of Hardware
+            <small>03 Apr 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+    <!-- MathJax -->
+<script>
+window.MathJax = {
+  messageStyle: "none",
+}
+</script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </body>
+
 </html>

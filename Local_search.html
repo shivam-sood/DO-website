@@ -1,0 +1,775 @@
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Local search notes</title>
+
+
+
+	  <link rel="stylesheet" href="static/css/main.css">
+  <link rel="stylesheet" href="static/css/syntax.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700%7CSource+Sans+Pro:400,400i,700,700i&subset=greek,greek-ext,latin-ext" rel="stylesheet">
+<style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	/*white-space: pre-wrap;*/
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Discrete Optimization</h1>
+      <p class="tagline"># Team R</p>
+    </div>
+
+    <input type="checkbox" id="menu-icon">
+    <label class="menu-label" for="menu-icon"></label>
+    <div class="trigger">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="index.html">Home</a>
+        </li>
+
+        
+        
+          
+            
+          
+        
+          
+        
+          
+            
+              
+                <li class="sidebar-nav-item">
+                  <a href="/archive/">Archive</a>
+                </li>
+              
+            
+          
+        
+          
+        
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+          
+        
+          
+            
+              
+                <li class="sidebar-nav-item">
+                  <a href="/projects/">Projects</a>
+                </li>
+              
+            
+          
+        
+          
+        
+          
+        
+          
+            
+          
+        
+
+        
+          <li class="sidebar-nav-item">
+            <a href="https://www.anish.io/">Research</a>
+          </li>
+
+
+          <li class="sidebar-nav-item">
+            <a href="#">Local Search notes</a>
+          </li>
+        
+
+      </ul>
+    </div>
+
+    <p class="copyright">&copy; 2020. All rights reserved.</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+<article id="d32087b9-b1e2-40b4-b813-4981e230d220" class="page sans"><header><img class="page-cover-image" src="https://i.ytimg.com/vi/2IbJf4oXOxU/maxresdefault.jpg" style="object-position:center 44.36%"/><h1 class="page-title">Local search notes</h1></header><div class="page-body"><h1 id="ca21fb42-2f31-4bb8-a5b9-5625b63a0772" class=""><mark class="highlight-red">Local Search </mark></h1><nav id="24ec8661-1c7f-4978-babf-efd2443d2063" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ca21fb42-2f31-4bb8-a5b9-5625b63a0772"><mark class="highlight-red">Local Search </mark></a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#efa0d7de-58be-43d0-8d70-b1be324cbf57">Local Search</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6f8e4a25-3e78-410d-ace5-3e0cb8a6c035">WHAT is LOCAL SEARCH ?</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#6b69c697-4a1b-49d4-8787-29a9f2ae19c7">Solving feasibility and optimality together</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#40228637-55ee-46b9-b0fb-f7e8cd3123e1">Complex Neighbourhoods - Traveling Tournament Problem</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#91a9c88d-d560-4006-966e-f33dfdada442">Non-global optima - Definitions</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#7bb4cf41-ed61-4c01-a292-d020c8ca80a8">Local Search Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#157bc332-46b7-472c-97ff-19a7b3dc0138"><strong>Iterated Local Search</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9fdb6f9f-312a-4f0e-8ade-bb0cf083cdcc"><strong>Metrapolis Metaheuristic</strong> </a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#9c175fa2-9816-4d78-8a7e-c3ae4aa3efc6"><strong>Simulated Annealing</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#c6a7df64-fb5f-4c87-a6d5-ec70de4359ac">Tabu Search</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d74b5a96-a8e6-4ebe-b157-a0534899617e">Graph colouring tabu-search performance graph</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#ca95413b-37b8-4f68-b78b-291907c48650">LECTURE 7 : formalization, heuristics, meta-heuristics introduction</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#120d94bb-89f8-47ea-9292-4d8d610b5495">Basic local search implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#18dd34aa-0003-4ba4-ae64-ac3c34fbb6d7">Local Search Implementation</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7fb115d2-fe37-4671-92bc-c032b8ef5b25">Heuristics and meta-heuristics</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#e88f81f5-c411-4c2e-8b98-aa99bbda275e">First Neighbour</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#6c286154-e776-4614-8af6-882dce5a3af2">Multi-stage heuristics</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#60ccfa3b-f899-4c4d-af4f-9fb64c1424cb">Random Walks</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#f62e9879-3440-4a14-8ebb-5d1084a237fb">LECTURE 8: iterated location search, metropolis heuristic, simulated annealing, tabu search intuition</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#735645bf-2c03-4ee2-ba79-de06583bfe8b">META-HEURISTICS</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#ec123bf8-6b6f-4612-9679-b6879dffe2fc">Iterated local search</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#dc5698ed-a199-47b0-b087-a5ce5e7de8eb">Metropolis Heuristic</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#42e40764-cbda-4f11-b9cc-0cdde7ad083f">Simulated Annealing</a></div><div class="table_of_contents-item table_of_contents-indent-2"><a class="table_of_contents-link" href="#7d9aed7b-7e48-4d13-b7a0-fd912a1ed396">Tabu Search</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c43e0407-ed10-4a08-aeb0-5794d43b8dcd"><strong>LECTURE 9</strong></a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#829dadc9-0c97-4994-a63e-2cda21cee309">Sample for MIP</a></div></nav><h1 id="efa0d7de-58be-43d0-8d70-b1be324cbf57" class="">Local Search</h1><h3 id="6f8e4a25-3e78-410d-ace5-3e0cb8a6c035" class="block-color-orange_background">WHAT is LOCAL SEARCH ?</h3><p id="a53a9925-4429-4235-9a5f-35ab8b7a4f75" class="block-color-orange_background">In simple words,  local search is a technique that explores the space of possible solutions in
+sequential fashion, moving from a current solution to a “nearby” one.</p><figure id="13607cbe-cb66-4d92-a2ad-59932bdb465b" class="image"><a href="https://i.imgur.com/rw4m1Yq.png"><img style="width:240px" src="https://i.imgur.com/rw4m1Yq.png"/></a></figure><p id="1da88cfb-fe6a-4542-8c74-42c10248e0a5" class=""><mark class="highlight-orange_background">Some local search assignments can thus violate the ‘constraints’ that you’d put in a constraint programming solution, unlike constraint programming where all intermediate states satisfy all constraints.</mark></p><figure id="9379a008-082e-4786-9777-f72998dbc433" class="image"><a href="https://i.imgur.com/DiSEHRa.png"><img style="width:192px" src="https://i.imgur.com/DiSEHRa.png"/></a></figure><p id="242f330a-c9ed-42ab-a9a7-8804bdf3a243" class=""><strong>Satisfiability to Optimization</strong></p><figure id="44fe4704-78bd-4f0b-9e4d-100ae004d517" class="image"><a href="https://i.imgur.com/prWWQ9Z.png"><img style="width:192px" src="https://i.imgur.com/prWWQ9Z.png"/></a></figure><p id="9715c1b3-cf64-4a4c-a3d9-579012c98e57" class=""><mark class="highlight-orange_background">How constraint violations are counted can differ, could even build an arbitrary loss function on it with different weights to different violations.</mark></p><figure id="137e218f-d725-424d-be76-8de6ac984682" class="image"><a href="https://i.imgur.com/1K8yR5A.png"><img style="width:384px" src="https://i.imgur.com/1K8yR5A.png"/></a></figure><p id="caafb5fa-93f7-40a1-88f0-22ace535cbec" class="block-color-orange_background">:::spoiler N Queens In the N-Queens problem, your local move can be ‘move along the current row’ because we know one queen will be there in every column, and queens are not distinct. This reduces our ‘search space’. :::</p><figure id="c749e70d-5589-45ec-bf19-a65a6b5724f2" class="image"><a href="https://i.imgur.com/V813qd7.png"><img style="width:288px" src="https://i.imgur.com/V813qd7.png"/></a></figure><p id="4832f998-3b6b-4786-b22b-be4119cc04f6" class="">In the graph, nodes are ‘states’ or ‘assignments’ and edges are between those assignments which we can transition between in 1 move. Directed graph as it may not make sense to go from a ‘lower loss function’ assignment to a higher one in some cases. Can always add backward edge if needed anyway. The algorithm designer decides which edges should be allowed for each node. Lower the edges, there might be less chance of reaching optimal solution (not until a certain point though) but also algorithm will run faster.</p><p id="74ca4bf4-7378-41ad-bc3e-d2ddfb35b4d1" class=""><strong>Local Minima:</strong> Every possible move leads to an equal or worse configuration.</p><figure id="07ae0e25-ce9b-4964-ae6d-76ae80fe03d0" class="image"><a href="https://i.imgur.com/bXUVg3G.png"><img style="width:384px" src="https://i.imgur.com/bXUVg3G.png"/></a></figure><p id="ea12f092-98b1-4e96-b015-53c5afcc5ea2" class="">No guarantees for achieving global optima. Escaping bad local optima is a critical issue.</p><p id="d9661686-9dcf-4566-aea5-02290d70f5e7" class=""><strong>Hard Constraints:</strong> Constraints that are always satisfied during the search. :::spoiler Examples - Total no. of tasks scheduled - Total no. of cars of each type on the assembly line (demand constraint) - All numbers should be different in magic square assignment :::</p><p id="8ae85576-8cca-44d1-9f0f-0c0774cd6293" class=""><strong>Soft Constraints:</strong> Constraints that might be violated during the search but are necessary in the final output. :::spoiler Examples - No window of k time should have &gt;m tasks - For each ‘option’ i.e. feature of car, no window of k slots should have &gt;m cars requiring that option - Sum of numbers on each row, column, diagonal in magic square should be equal :::</p><p id="51133e5b-ab90-44d5-93fb-d0cae30c037d" class=""><strong>Swaps:</strong> It may be wise to perform swaps of any 2 variables in the current assignment s.t. hard constraints are maintained.</p><p id="196874f6-52d7-4c79-bd64-e9d412cb2a5a" class="">:::spoiler Examples - Swap 2 tasks in the current ordering - Swap 2 cars in the current ordering - Swap 2 numbers in the magic square :::</p><p id="b4270e26-91f1-4282-87da-5c2d46dca398" class=""><strong>Travelling Salesman:</strong> Simple neighbourhood is to take an arbitrary path, and then replace 2 edges (notice it cant be 1) with some other edges, while ensuring a circuit is formed (reverse an arbitrary subset of edges if needed). This is called 2-opt</p><p id="af65f70c-686f-4f89-bb47-dde819138f77" class="">But why 2? Why not 3? 4? more… Well the time required worsens.</p><p id="e11acd35-e853-4db6-bfe1-0f4c6ef30788" class=""><strong>K-Opt</strong> Instead of searching for an entire set of edges to swap, build the edges-to-be-swapped set incrementally. How? 1. Pick a long edge <em>e</em>1, say <em>u</em>1, <em>u</em>2 2. Pick a shorter edge <em>e</em>2 from <em>u</em>2 to another vertex <em>u</em>3 that you want to replace <em>e</em>1 with. If can’t do this, pick a new <em>e</em>1 (restart). 3. Now you have to remove one of <em>u</em>3’s edges, <em>e</em>3 from <em>u</em>3 to <em>u</em>4. 4. Now we can connect with edge <em>c</em>1 = <em>u</em>1 to <em>u</em>4, but we won’t. - First notice that on doing so, we remove <em>e</em>1 and <em>e</em>3 while adding <em>e</em>2 and <em>c</em>1, compute the cost of this 2-opt-like swap. - But we don’t need to end here, assume <em>c</em>1 to be a new <em>e</em>1 (like step 1) and loop steps 2-4, each iteration giving us (i+1)-opt as one additional edge gets removed (in new step 3) and one additional gets added (in new step 2).</p><p id="748296f1-f196-44d2-97af-5c4bd5fd9ba3" class="">Keep doing this until we have done k-1 iterations, giving k-opt. Finally, see which iteration gave the lowest cost and execute the swaps made to achieve that iteration’s configuration.</p><h3 id="6b69c697-4a1b-49d4-8787-29a9f2ae19c7" class="">Solving feasibility and optimality together</h3><p id="8ae4f3f3-01aa-4f4c-9738-eb1acefd7da6" class="">There are many such problems with some constraint and a quantity to optimize.</p><p id="feed9da6-a869-4287-829b-95704bf9f642" class="">Eg: Graph Coloring Constraint: No 2 edges should have same colored vertex Optimize: Minimize the no. of colors used</p><p id="1986cdfa-7ed7-4a8e-910c-9abbd887b219" class="">There are 3 approaches to such problems: 1. For a certain value of to be optimized quantity, find a feasible solution. Then improve the quantity slightly and switch things around to make the solution feasible. :::spoiler Graph coloring example</p><figure id="1ebb8d44-092f-47c1-a7eb-7938d0b4d531" class="image"><a href="https://i.imgur.com/iXMjjPc.png"><img style="width:432px" src="https://i.imgur.com/iXMjjPc.png"/></a></figure><p id="e7b3c560-edeb-495a-a85f-eb5a4b0113d8" class="">How to make solution feasible with k-1 colors? Try to minimize constraint violations using local search. :::</p><ol id="a7a5aa2e-3435-4e89-a26c-7fffdfc911ff" class="numbered-list" start="1"><li>Always stay in feasible solution space, i.e. dont violate constraints at any stage. Then see if you can improve the optimization quantity using some changes such that you don’t violate the constraints. For this, you may want to use a different loss function that keeps the essence of the original optimization quantity but is more easy to evaluate ‘improvement’ in. :::spoiler Graph coloring example The original loss function is just number of colors. With a local move of ‘change color of one vertex’, you most probably won’t improve the loss function. Therefore we need a loss function that conveys more verbose information.  The loss function basically improves whenever we have larger color classes. So most color change moves would bring about a change in the loss function, and a change for the better if a node’s color changes from <em>i</em> to <em>j</em> s.t. <em>C</em> &lt; <em>C</em> because we make progress towards removing the <em>i</em><em>h</em> color. Ofcourse this might lead to bad local minima as it’s more of an approximation.<figure id="c8682e6d-6196-46d7-acdb-4ba60991a14b" class="image"><a href="https://i.imgur.com/lfxrcs8.png"><img style="width:288px" src="https://i.imgur.com/lfxrcs8.png"/></a></figure><p id="ff152100-c914-4dda-9b13-74cf9a20221b" class=""><em>i</em></p><p id="b137c57d-515f-46fd-9de1-bd9359b672ba" class=""><em>j</em></p><p id="2646de35-243d-4e21-a13f-38557f3b71dc" class=""><em>t</em></p></li></ol><p id="d0e29a60-9a60-4c9f-8bf3-a6df861b9e7c" class="">But we also have to ensure each move keeps the solution feasible. How to do that? Well, each move is not a single color change, but a sequence of color changes that lead to a feasible solution, called a</p><p id="89b7e259-ef2c-48af-87b7-9b8678068b91" class=""><strong>kemp chain</strong></p><div id="3835f0f4-4b85-49bd-8e88-71771d4cbb82" class="column-list"><div id="9cedbbdb-55ec-47d0-8e4c-02470d182ee9" style="width:50%" class="column"><figure id="17e7ecc9-2007-4bc9-8516-281484c6183d" class="image"><a href="https://i.imgur.com/wiZ6rf8.png"><img style="width:432px" src="https://i.imgur.com/wiZ6rf8.png"/></a></figure></div><div id="8d1726a8-2a8e-4c1d-ad9c-d71efacc13d8" style="width:50%" class="column"><figure id="3931d72c-3606-4bf0-a043-178a00adee0a" class="image"><a href="https://i.imgur.com/yXWNFQD.png"><img style="width:288px" src="https://i.imgur.com/yXWNFQD.png"/></a></figure></div></div><p id="692c535b-8488-444f-8f78-00f64dc4ecef" class="">Changing v from Ci to Cj would cause a match in colors with some adjacent vertices, so we switch those adjacent vertices to Ci and further on similarly. Sometimes (as in the image examples) it leads to an improvement in cost function (from 7-7 to 8-6) and these are the local search moves we make. So our neighbourhood consists of valid kemp-chain moves, not a single vertex color change now. :::</p><ol id="5834e30b-84d0-419c-adcf-9f09dfb2fe42" class="numbered-list" start="1"><li>Do a mix of the above 2 strategies, i.e. bring improvements in either feasibility or optimization-quantity or both with each move.<figure id="fd9683da-4700-48d7-8e44-e4d835cdc370" class="image"><a href="https://i.imgur.com/tM62knE.png"><img src="https://i.imgur.com/tM62knE.png"/></a></figure></li></ol><p id="b2c485fd-c8b3-44f7-93d0-dcf03b2c472a" class="">::: spoiler Graph coloring example Define</p><p id="885f9ae0-fabd-4454-b021-0b43918f5463" class=""><em>B</em></p><p id="2af33765-10f5-4bd9-b15e-5fb17e519c68" class=""><em>i</em></p><p id="1c757008-407f-4bd5-b43c-c178300cf4c0" class="">as set of bad-edges (same colored ends) of</p><p id="0a6e84a8-5dc2-4892-b7e2-038376266d86" class=""><em>i</em></p><p id="3dea0680-8a7c-4c93-b5ed-d7d10a4f54ba" class=""><em>t</em><em>h</em></p><p id="dbe745c8-4cdb-4a0d-a47b-cee2d2879917" class="">color. We want to minimize</p><p id="ea2d3e14-7c04-480b-99b2-f90ff9ba768f" class=""><em>B</em></p><p id="8b6ce008-15a7-4be0-8574-2257d15d7523" class=""><em>i</em></p><p id="e8db0615-9cb2-4b20-8ada-717d3924da61" class="">(to 0) and maximize |</p><p id="e046e9f5-494e-4fc6-8beb-e6e10b9dbc5d" class=""><em>C</em></p><p id="16d78059-13d8-42aa-8e88-17ab820eafeb" class=""><em>i</em></p><p id="302b29cd-b699-4c09-947e-80372a03e036" class="">|</p><p id="9a8b0a63-32a5-439c-b085-f54fdc2d1613" class="">2</p><p id="c5239841-e950-4ec0-81fc-567bc29826d9" class="">to minimize colors. How to combine them? Well we want to try that the new objective function ensures that our local minima are atleast feasible (even though we can’t say anything about optimality). Here, this can be ensured using the objective function 2|</p><p id="0b682c10-2bb3-4361-afec-e94da0ba59ed" class=""><em>B</em></p><p id="0043ff6d-4a35-4aed-adb1-9f398153f046" class=""><em>i</em></p><p id="b3b9944d-b28f-4077-8aba-7aa5c9b4556a" class="">||</p><p id="998c59c7-7a99-4f5a-ae57-05f06b48bafa" class=""><em>C</em></p><p id="038b3b1f-8d4d-4e56-aeb3-bca40ea959ef" class=""><em>i</em></p><p id="f4162565-0266-4159-8877-fd09d7ed5601" class="">| − |</p><p id="b0ef9d30-927e-4ded-84f7-18aec2ffec08" class=""><em>C</em></p><p id="855d3ec1-602a-44a4-8bf5-bdd16b64e97e" class=""><em>i</em></p><p id="fcc8067c-61d7-4394-9d9e-310a9ffbfa0a" class="">|</p><p id="1198b343-13f7-4c6d-97c2-eff27d5f07db" class="">2</p><p id="ba0c7739-75f3-4079-8988-a1b2ada65b36" class="">. Proof:</p><figure id="f36cb4dd-bd03-498c-bc84-1798f483024c" class="image"><a href="https://i.imgur.com/XzSTX7H.png"><img src="https://i.imgur.com/XzSTX7H.png"/></a></figure><p id="cd0d6630-d141-4a6b-8c6b-8c37517d2f1d" class="">Thus the minima won’t be a local minima if |</p><p id="bc640bb0-9d82-4f96-976e-6d5cf06539b7" class=""><em>B</em></p><p id="ff45e4d6-4caa-42a6-b486-c7de63afb6da" class=""><em>i</em></p><p id="e0375f5a-5070-4b89-8bf5-b6b8b2e22184" class="">| &gt; 0 for any</p><p id="23759059-014c-4052-b9a6-fb4a2300018c" class=""><em>i</em></p><p id="1f4fe085-ad27-4c5d-8bc4-0d61daf100a5" class="">, and thus the local minima are always feasible, though they are built towards by improving both feasibility and optimality iteratively. :::</p><h3 id="40228637-55ee-46b9-b0fb-f7e8cd3123e1" class="">Complex Neighbourhoods - Traveling Tournament Problem</h3><figure id="48d903de-ae44-4998-8572-37c4788cf7a3" class="image"><a href="https://i.imgur.com/abpSrDm.png"><img src="https://i.imgur.com/abpSrDm.png"/></a></figure><p id="25ea7bb4-69de-41ad-a72f-f158ca412eb7" class="">The travel distance is the sum of distances travelled by each team over the entire tournament. So essentially we have to a fill a schedule (Sch) table of teams x rounds size, specifying the</p><p id="49000ae8-da57-4e1d-ba56-2770d41d8884" class=""><em>i</em></p><p id="0a50567d-6a61-4175-8740-4f9d8041745a" class=""><em>t</em><em>h</em></p><p id="c02b9ded-f384-47aa-9af0-d39d9da54374" class="">teams plays the</p><p id="f4ab2aac-6246-4b15-9b4e-3bc1b35a289c" class=""><em>j</em></p><p id="2cd79012-5f99-4463-80cd-330c58a49d21" class=""><em>t</em><em>h</em></p><p id="60c57c21-0df4-4c22-94a2-161d9bb66966" class="">round with team</p><p id="a999b817-15c2-4957-a868-f1ef247de743" class=""><em>S</em></p><p id="8d4ffdf8-c1ad-4fae-ae92-10f938bac398" class=""><em>c</em></p><p id="166347f1-9fd0-41de-9959-55268c9b7738" class=""><em>h</em></p><p id="a5f75cd6-c2c7-48d1-a710-c3d5397f9334" class="">[</p><p id="18489a1e-1f15-4112-b990-82c3cd8cbbb3" class=""><em>i</em></p><p id="84c29d87-bd97-4b52-983f-5cc6aa1c0ec9" class="">][</p><p id="a4dbcbdc-057a-4f5d-8dd0-dbe9e6b2f2b1" class=""><em>j</em></p><p id="a9629429-806b-4ff5-8080-762c241e74eb" class="">] and also add info. on which team is home and away in this matchup. :::spoiler Intuition for first constraint Had the first constraint not existed, it might have been optimal to make teams play a lot of home matches together, and then go out on a tour of away games. But this gets boring for fans during the away part of the season and also causes teams with an early home phase to take a lead in the season only to be caught up later, i.e. scoreboard becomes more subtle/complex, which is undesriable. :::</p><p id="af44ee7c-e6b6-4346-8174-50ea082c658e" class="">The interesting part of this problem is defining a neighbourhood for a particular assignment. Something as simple as swap 2 rounds for a particular team might not work well alone (because it also propagates changes elsewhere in the table for the opponent teams). The current best solution to this problem constructs the following moves to define a complex neighbourhood:</p><ol id="7c852b42-99cb-4a52-8fae-dd42c45cd42f" class="numbered-list" start="1"><li><strong>Swap homes</strong>: For given pair of teams A and B, swap which game is at A’s home. It doesn’t affect much, except the first constraint and possibly reducing travel distance.</li></ol><ol id="d5d072df-2120-4ede-ab2f-3009712189a4" class="numbered-list" start="2"><li><strong>Swap rounds</strong>: The exact round number for matchups is irrelevant, so you could take 2 columns (rounds) and swap them. This is a big move, i.e. radical change is possible.</li></ol><ol id="07557062-cddf-4aa2-989e-d8a523847ccf" class="numbered-list" start="3"><li><strong>Swap teams</strong>: Take the sequence of matches for two teams (two rows), and swap them. But now the opponents schedule also gets affected, so changes have to be made to maintain the integrity (<em>S</em><em>c</em><em>h</em>[<em>i</em>][<em>j</em>] = <em>S</em><em>c</em><em>h</em>[<em>S</em><em>c</em><em>h</em>[<em>i</em>][<em>j</em>]][<em>j</em>]) of the table acc to new schedule. Keep their games with each other as it is. Another radical change.</li></ol><ol id="368fb626-3b48-4fc2-96c8-359fec51f23a" class="numbered-list" start="4"><li><strong>Swap partial rounds</strong>: Pick 2 rounds, and instead of swapping them entirely, exchange around the schedule for teams within these 2 rounds while maintaining integrity.</li></ol><ol id="adcb07ea-b828-4180-a65e-ad334a97ee51" class="numbered-list" start="5"><li><strong>Swap partial teams</strong>: Instead of swapping the whole row, swap a subset of round matches of 2 picked teams. Now integrity would be violated in the table elsewhere, so fix that too.</li></ol><h3 id="91a9c88d-d560-4006-966e-f33dfdada442" class="">Non-global optima - Definitions</h3><p id="28d03e50-416c-4b1b-aaba-0b6e083a6886" class="">There are 2 main ways you can end up at non-global (henceforth called bad) optima: 1. You move into a bad optima and there’s no way to move out 2. You start in a region which is disconnected from the global optima, so you can never reach it and end at a bad optima.</p><p id="3caccf41-4881-46c0-8cb1-d761f1b592c4" class="">We define a ‘connected’ neighbourhood as:</p><figure id="403ef848-57bf-4357-bb60-9e7e2ac20149" class="image"><a href="https://i.imgur.com/eVsNk0K.png"><img src="https://i.imgur.com/eVsNk0K.png"/></a></figure><p id="ee49a43a-4503-44aa-afd5-fbbfbdeae7dd" class="">Connectivity doesn’t guarantee optimality as in your greedy search strategy you might end up at a local minima. But it is essential for there to be some hope for reaching the global minima.</p><p id="efea5e4f-1813-482a-abdc-d7823149565e" class="">To prove connectivity, you assume the optimal solution and prove that there is a sequence of moves within your defined neighbourhood to construct the optimal solution from your starting configuration.</p><p id="08033281-2d7b-44e4-a448-dca5c6498891" class="">:::spoiler Graph coloring example</p><figure id="81d6d09d-69f6-406d-821e-e909c02da6ab" class="image"><a href="https://i.imgur.com/lQfOiFU.png"><img style="width:384px" src="https://i.imgur.com/lQfOiFU.png"/></a></figure><p id="27bfa255-bc87-41de-b0a8-929f5a5b15c9" class="">::: :::spoiler Car Scheduling - Swap Neighbourhood Swapping can take you from any permutation to the optimal one.</p><figure id="c19bad98-8178-4bcf-9cdf-8b0b7188c65d" class="image"><a href="https://i.imgur.com/3E9gAEa.png"><img style="width:384px" src="https://i.imgur.com/3E9gAEa.png"/></a></figure><p id="2f734cb6-83a1-4497-8981-bfda859b9622" class="">::: :::spoiler Travelling Salesman - 2-opt The neighbourhood defined by a 2-opt move (pick 2 non-connected edges, replace them with diff. 2 edges among the 4 nodes) is connected. This is because travelling salesman solution can be considered an array if we fix arbitrary node as the starting point. Each 2-opt move (assume perfect graph) corresponds to reversing exactly one contigous subarray of size &gt;=2. Thus we can achieve any optimal permutation we want from any starting configuration.</p><figure id="7782a41c-38e7-402f-b3ad-f9517c9f2608" class="image"><a href="https://i.imgur.com/8vvTmr7.png"><img src="https://i.imgur.com/8vvTmr7.png"/></a></figure><p id="1d64843e-dd49-40f8-88b7-f61cd73419d8" class="">::: Open question left by PvH: Is travelling tournament problem 5-step neighbourhood connected?!</p><p id="d1118918-1408-4a74-bf03-d549bbcb684e" class="">
+</p><hr id="0cf4d8c1-14fd-41d6-989c-ac225ce819fc"/><hr id="c4157684-fd02-4199-b2e4-a0b6e0b93a4f"/><hr id="3b31be62-416d-4d78-97f3-1345fc9d1b85"/><hr id="bfa3f7cb-774b-4957-95b3-b12953a9efde"/><hr id="2f125649-5b61-4c41-84a9-ece07df43004"/><hr id="aa4f2ce3-8552-45ff-9067-7165a469cb3c"/><p id="249b8a14-3ddb-41a0-8913-984279151096" class="">
+</p><h3 id="7bb4cf41-ed61-4c01-a292-d020c8ca80a8" class="">Local Search Implementation</h3><figure id="a39a3de8-bb5f-45d7-ac5b-0432041b2227" class="image"><a href="https://i.imgur.com/UM1IzEV.png"><img style="width:432px" src="https://i.imgur.com/UM1IzEV.png"/></a></figure><p id="043ff61a-1cd3-420a-8428-f38e9e22e0f0" class=""><em>f</em></p><p id="6726d6bf-e13c-4316-949a-e84496f04fb9" class="">is the objective function,</p><p id="44ec68a3-aff7-4479-b2b0-8672d5e958b6" class=""><em>N</em></p><p id="77da971c-16c2-42f0-8324-573170736a2f" class="">is neighbourhood function,</p><p id="37b2da1a-8daa-48f3-9dc2-0ca344709529" class=""><em>L</em></p><p id="bc0fb0bb-1446-4fd5-8b45-52b915211a6c" class="">is legal neighbourhood from given neighborhood function and and</p><p id="11fbc2aa-1591-4e56-a7ca-ef280051678f" class=""><em>S</em></p><p id="b3ddcb8b-dd1f-4bb3-8fed-bc209d0d3fff" class="">is the next-state selection from legal neighbourhood function.</p><p id="9b7f4ee2-7539-4701-9072-876c2f47871d" class=""><em>s</em></p><p id="36cf32d9-a949-40fe-89f3-6cf8a3bf261f" class="">is the current state. Algorithm basically says that start with initial solution, maintain</p><p id="c407d633-855c-4ccd-85c0-fc000d6de86e" class=""><em>s</em></p><ul id="b86347d8-179d-4ffe-9ec9-5707f4f3e149" class="bulleted-list"><li>which is the best seen state till now. Then do some number of trials in which a new state is moved to by selecting it from the set of legal neighbourhoods which are selected from the set of neighbourhoods.</li></ul><figure id="9fdf0133-338c-400a-8ca9-1c6ba8969c88" class="image"><a href="https://i.imgur.com/jfUGRIs.png"><img style="width:432px" src="https://i.imgur.com/jfUGRIs.png"/></a></figure><p id="8143fcbb-b035-40c9-8cc6-00ef5601ad26" class=""><strong>Heuristics</strong>: Choose the next neighbour, driving the search towards a local minimum. <strong>Metaheuristics</strong>: Try to escape a local minima, driving the search towards a global minimum. Typically include some memory or learning.</p><p id="50169709-8a54-4852-91a0-2c8d72581865" class="">For example legal neighbourhood function might be ‘all states that reduce <em>f</em> from the current state’, reduce might be relaxed to ‘dont degrade’ or even ‘select all’‘(identity function). The selection function may be ’best neighbour’, i.e. choose the one which gives best objective function. It may also be ‘first neighbour’, i.e. the first one found to be legal. Lastly something mixed can be done, called ‘multi-stage selection’ where we first select one part of the neighbourhood and then choose the best among these. :::spoiler Examples of multi-stage heuristics <strong>Max/Min Conflict</strong>: Select the variable with most violations, assign it the value that leads to least violations. <strong>Min Conflict</strong>: Randomly select a variable which has violations, assign it the value that leads to least violations. ::: Essentially, choosing a multi-stage heuristic involves a tradeoff between the decrease in size of the part selected leading to possibly worse outcomes, but taking lesser time. Intuitively though, if you have a really large neighbourhood, it makes sense to choose a small part of it and then pick the best, and you can always find your way back during the local search as you can now run it for more iterations.</p><p id="706999ab-0567-4631-8cbe-27c78ac9036b" class=""><strong>Random Walks</strong>: Choose a random neighbour, see if it improves performance, pick it if it does. Most effective when the neighbourhood is really large and ideas on how to logically reduce it to something smaller are not clear. Example: Travelling tournament problem. In-fact used by the best result for which the 5 neighbourhoods were described earlier.</p><h3 id="157bc332-46b7-472c-97ff-19a7b3dc0138" class=""><strong>Iterated Local Search</strong></h3><p id="fb9fdccf-a0e3-4663-a9ec-27580188c141" class="">Re-start local search again and again with either a different initial configuration (might be chosen with some defined logic or randomly) or some randomization inside the algorithm, choose the best state obtained in all these iterations as the final solution.</p><h3 id="9fdb6f9f-312a-4f0e-8ade-bb0cf083cdcc" class=""><strong>Metrapolis Metaheuristic</strong> </h3><p id="e028bef4-768b-4684-9c08-59e9b6704179" class="">If a move improves the objective function, take it. If it degrades it, take it with some probability. This probability gets lower the more the move lowers the objective function.</p><figure id="c05b2ff0-13a1-45de-ae2d-438a27680c18" class="image"><a href="https://i.imgur.com/zXHtm1C.png"><img style="width:480px" src="https://i.imgur.com/zXHtm1C.png"/></a></figure><p id="f1ec588d-d676-4810-854c-51a4605842dd" class="">So if <em>t</em> is very large, the probability converges to 1, so we almost always take the move and it tends to a random-walk. If <em>t</em> is very small, the probability converges to 0, so we rarely take the move and it tends to a greedy search. So we have to make a compromise between accepting degrading moves and moving towards only better solutions.</p><h3 id="9c175fa2-9816-4d78-8a7e-c3ae4aa3efc6" class=""><strong>Simulated Annealing</strong></h3><p id="41447357-e350-4843-b0a1-5a9c369cc6dc" class="">Start with a very high temperature, essentially a random-walkish approach. Progressively cool the temperature, becoming more and more greedy (towards a normal local improvement search). A reasonably fast updatetemperature example is</p><p id="88941622-02ab-47ca-9f97-780a987d28f7" class=""><em>t</em></p><p id="f36eace4-e1a3-4fea-83e3-57c15a2a7ed9" class=""><em>k</em></p><p id="ded5ea58-13cd-4e35-9490-ef1748129612" class="">=</p><p id="602b4e75-f4f2-4c4f-a790-b55a2b654a66" class=""><em>α</em></p><p id="73b1b86e-b4b3-4f0d-9b16-9f6901ac713d" class="">*</p><p id="be247ff2-e11b-4f2e-9d3f-02d1e6ebdd7f" class=""><em>t</em></p><p id="4dddfba6-6939-4de3-8f30-65c4d20180eb" class=""><em>k</em> − 1</p><figure id="0f5fc1f6-05d0-4bc3-9198-a188876d9d03" class="image"><a href="https://i.imgur.com/cU3UEJ5.png"><img style="width:432px" src="https://i.imgur.com/cU3UEJ5.png"/></a></figure><p id="555adf37-c198-4ac0-b07a-b84d48e854ad" class="">For an extremely (unrealizably) slow search with cooling speed tending to 0, it is proven to converge to the global optimum :0 But even in practice with a reasonably fast schedule also it does well in problems like TTP.</p><p id="32051fae-bcf9-4932-ae2c-bb7fcfd6d192" class="">This can be combined with various techniques like re-starts (iterated) and re-heats (increase the temperature periodically so that you have spurts of ‘breadth’ and ‘depth’ in the search-space). Can also take insights from tabu-search.</p><h3 id="c6a7df64-fb5f-4c87-a6d5-ec70de4359ac" class="">Tabu Search</h3><p id="32de6cf1-ddc8-46fc-a7f9-f42103099a7f" class="">We maintain a list of ‘tabu’ states which we don’t want to visit again. Intuitively, this can ensure our meta-heuristic won’t make us back-track, and instead will force us to find new states/regions even if they are worse than some previously seen states in terms of the objective function. Now, it’s not necessary to mark every visited state as tabu, tabu selection function can also be programmer-decided.</p><h3 id="d74b5a96-a8e6-4ebe-b157-a0534899617e" class="">Graph colouring tabu-search performance graph</h3><figure id="822360c6-dfa8-474b-8b30-5eb189455768" class="image"><a href="https://i.imgur.com/s49jblQ.png"><img style="width:528px" src="https://i.imgur.com/s49jblQ.png"/></a></figure><p id="8b049d3d-41f5-4ea9-a1bd-de7e4d01c14b" class="">Y-axis is number of colors and X-axis is iterations. :::</p><figure id="52b58514-3b54-4ddb-8c91-abac3591457d" class="image"><a href="https://i.imgur.com/Fs6M8ij.png"><img style="width:336px" src="https://i.imgur.com/Fs6M8ij.png"/></a></figure><p id="356bb0a6-f7cc-4039-8c7a-92554b0ab384" class=""><strong>Tabu-list selection</strong> It may not even make sense to maintain the list of all visited states because each configuration is large to maintain in memory and we will have thousands/millions of configurations over time. We can use something like short-term memory, where we only maintain the last X states, where X can change dynamically (eg: higher X if taking a degrading move and lower if improving move). But even then it can be quite costly.</p><p id="0d5367e6-e875-4c5d-91b9-85dd205df8d5" class="">So we may want to store an “abstraction” of the tabu list, instead of explicitly storing disallowed states. Instead of storing states in the tabu-list, we can store transitions. The idea is not to make transitions that essentially undo recent translations, because not a lot of ‘context’ would have changed. :::spoiler Example/Implementation of Car assembly If transition is swapping to places, don’t swap a recently swapped pair back.</p><div id="77b25711-cca2-404a-809c-523bceaf61a3" class="column-list"><div id="c7d8bdf9-4416-470b-8671-9d0842cf7bd7" style="width:43.75%" class="column"><figure id="e5716bc8-055d-4a29-b602-1bc6d44b0d78" class="image"><a href="https://i.imgur.com/P3b9Iid.png"><img style="width:384px" src="https://i.imgur.com/P3b9Iid.png"/></a></figure></div><div id="f2d1fdea-aa37-4958-8bb7-f7d477897947" style="width:56.25%" class="column"><figure id="586e9441-0861-4859-902b-652372663142" class="image"><a href="https://i.imgur.com/V5lRyly.png"><img style="width:384px" src="https://i.imgur.com/V5lRyly.png"/></a></figure></div></div><p id="33b9561f-358a-41de-9955-a78dd1e5ba16" class="">Reduce violations by making swaps that are not tabu. Red-lines represent tabu-search specific code. Notice that even if all moves are tabu right now, in the future the iterations will increase so some moves will start becoming available. In practice, moves are not implemented before the cost is calculated unlike the code example. ::: Calculating costs before making moves is called ‘differentiation’.</p><figure id="eb01dc23-6b98-4ad4-bc73-3af661a0c7c4" class="image"><a href="https://i.imgur.com/blA4IFm.png"><img style="width:480px" src="https://i.imgur.com/blA4IFm.png"/></a></figure><p id="b906073d-0aec-47ea-9ebc-cd9b484f2347" class="">Can also then be combined with multi-stage heuristic so instead of quadratic we can choose linear neighbourhood (for a particular car, find which car to swap it with).:::spoiler Tabu list - Queen’s problem example</p><figure id="83e9a4b5-b4a4-41b2-bc19-7c4b485488d7" class="image"><a href="https://i.imgur.com/plrTvoM.png"><img style="width:432px" src="https://i.imgur.com/plrTvoM.png"/></a></figure><p id="65954447-385e-453d-a705-cd64064f88c9" class="">:::</p><p id="8b950ac0-3408-4ec7-b2ca-25900955a21a" class="">Sometimes you may take a coarser tabu criteria, that makes the search more diversified. Like in the queens problem, don’t allow the same queen to be assigned a new value for a certain number of moves.</p><p id="d0a13660-fb4b-4de0-8e1b-aa49867e676b" class=""><strong>Aspiration Criterion in Tabu Search</strong>: If a move not being allowed by tabu is too good, we might want to take it. We can set criterion for this such as if it’s more than a certain magnitude improvement over the objective function.</p><p id="8f7497cb-0503-4cb0-b7cc-55d04ae509e3" class="">Some more techniques:</p><figure id="89f9fc67-db29-4390-96e1-1c23e897df66" class="image"><a href="https://i.imgur.com/2L1tLfP.png"><img style="width:384px" src="https://i.imgur.com/2L1tLfP.png"/></a></figure><p id="2bb9ae29-1c1b-49eb-a334-d65da66a7610" class="">In strategic oscillation if we are spending too much time in a local minima, we might increase the weight of the objective function and decrease weight of the constraints to come out. On the other hand, if we’re violating too many constraints we may do the opposite. So the weights oscillate and take us to-and-fro from feasible region to infeasible region. These can also be used in simulated annealing, tabu-search or normal local search etc.</p><h2 id="ca95413b-37b8-4f68-b78b-291907c48650" class="">LECTURE 7 : formalization, heuristics, meta-heuristics introduction</h2><p id="5c05d02f-99a8-4062-9017-fb2e74650356" class="">a BRIEF OVERVIEW OF THE content covered till now and some notational stuff:</p><ul id="032fd552-283d-4fdb-ab08-ea4436ef04a3" class="bulleted-list"><li><strong>States:</strong> either solutions or configurations</li></ul><ul id="d12f0ba8-2260-472b-9956-f1a1ecfe332b" class="bulleted-list"><li><strong>Moving from state s to one of its neighbours:</strong> Here for a state <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span></span><span>﻿</span></span>, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">N(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> is defined to be the neighbourhood of a state <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="c72c4558-d55a-4639-9ce6-e2d9e95aff3c" class="bulleted-list"><li>Some neighbours are legal and some are not: Let <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> be the set of legal neighbours</li></ul><ul id="3d16808f-0e86-4b9c-9111-94d60b419337" class="bulleted-list"><li>Selection function (selecting one the the legal neighbours): <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">S(L(N(s),s))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mopen">(</span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="dc59f809-348a-456a-aa66-35e383b8d9cb" class="bulleted-list"><li>Objective function: minimizing a function <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span></span><span>﻿</span></span> is used to refer to a state</li></ul><h3 id="120d94bb-89f8-47ea-9292-4d8d610b5495" class="">Basic local search implementation</h3><p id="d2c914e7-e220-4bdd-bb39-d1a9f4bfdbc8" class="">
+</p><figure id="86050e00-6318-436e-b486-f5f6dcf77df5" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled.png"><img style="width:432px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled.png"/></a></figure><p id="6cfeb0f2-013a-4645-ae96-2ebe0662e0f4" class="">Here the notation is defined as follows: </p><ul id="ccf48d57-b794-48ca-af66-d67fbcb55291" class="bulleted-list"><li><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span></span><span>﻿</span></span>=objective function which we want to minimize</li></ul><ul id="a8a806bb-8bba-4f26-9a02-c6cb3ebbaa61" class="bulleted-list"><li>N=set of points in the neighbourhood of </li></ul><p id="ca3ee827-fc62-47ce-a12a-1931eb583b8d" class="">
+</p><h3 id="18dd34aa-0003-4ba4-ae64-ac3c34fbb6d7" class="">Local Search Implementation</h3><figure id="3a3069e6-88c5-493e-a6b4-4b6b51345e2e" class="image"><a href="https://i.imgur.com/UM1IzEV.png"><img style="width:576px" src="https://i.imgur.com/UM1IzEV.png"/></a></figure><p id="f398648b-2f9a-4fd3-834d-08c6888fb2c4" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi></mrow><annotation encoding="application/x-tex">f</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span></span></span></span></span><span>﻿</span></span> is the objective function, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span> is neighbourhood function, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi></mrow><annotation encoding="application/x-tex">L</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">L</span></span></span></span></span><span>﻿</span></span> is legal neighbourhood from given neighbourhood function and and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span></span><span>﻿</span></span> is the next-state selection from legal neighbourhood function. <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span></span><span>﻿</span></span> is the current state. </p><p id="904be8d4-88c5-44f4-b946-be320751712b" class="">Algorithm basically says that start with initial solution, maintain <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>s</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">s^*</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.688696em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> which is the best seen state till now. Then do some number of trials in which a new state is moved to by selecting it from the set of legal neighbourhoods which are selected from the set of neighbourhoods.</p><p id="25c41713-c216-439c-84f1-6db7f62761ba" class=""><strong>NOTE: </strong>&#x27;Legal&#x27; here is not supposed to be interpreted as the allowed states to be only those states which do not violate any constraints. Rather, how we choose to define criteria for being a legal neighbour is upto us.</p><p id="7266f583-20f8-47b8-9933-f9dcac803b4c" class="">Eg: If we are currently at state <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">f(2)=2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>.</p><p id="8271e579-9a12-4275-aa7f-842ef6b6c474" class="">Let <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">(</mo><mn>3</mn><mo stretchy="false">)</mo><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">f(1)=1, f(3)=3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">3</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span></span><span>﻿</span></span> and <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mn>4</mn><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">f(4)=2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">4</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span></span><span>﻿</span></span>, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mn>5</mn><mo stretchy="false">)</mo><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">f(5)=5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">5</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span></span></span></span></span><span>﻿</span></span>. </p><p id="b95a5c18-58f6-482e-94e3-034d1a01f0c4" class="">Now, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo><mo>=</mo><mrow><mn>1</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn></mrow></mrow><annotation encoding="application/x-tex">N(2)={1,3,4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord">2</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">4</span></span></span></span></span></span><span>﻿</span></span></p><p id="ba3941cd-31d0-459a-92c5-4e391e3c3cf9" class="">
+</p><figure id="22bbffc4-257a-4238-bff8-0adc3f6fbb91" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%201.png"><img style="width:273px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%201.png"/></a></figure><p id="25a8efc7-4cf8-4e7c-be2f-de4e66b243dc" class="">Now, the vertices in <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> as per criteria would be as follows:</p><ul id="23ee065d-8f2e-4060-9c0d-e2f3761f0521" class="bulleted-list"><li>Local improvement: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)=\{1\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">1</span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="f416e1fb-3352-43a8-b53d-53e649954188" class="bulleted-list"><li>No degradation: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)=\{1,4\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">4</span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="41f8db72-384f-4341-9a47-e01103a5a56a" class="bulleted-list"><li>Potential degradation: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mn>1</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)=\{1,3,4\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">4</span><span class="mclose">}</span></span></span></span></span><span>﻿</span></span></li></ul><h3 id="7fb115d2-fe37-4671-92bc-c032b8ef5b25" class="">Heuristics and meta-heuristics</h3><ul id="f2703716-d25b-4537-8bee-2d8a509dce57" class="to-do-list"><li><div class="checkbox checkbox-off"></div> <span class="to-do-children-unchecked">Add stuff/links/other sub-topics to explore from Google docs later </span></li></ul><figure id="302aa6cc-0422-452e-b2ba-079c9d441460"><a href="https://docs.google.com/document/d/1JZ4OyrlRGaJHKsf5HH_rceG53mhJGXQTzz1-stNcdw4/edit#" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Google Docs - create and edit documents online, for free.</div><div class="bookmark-description">Create a new document and edit with others at the same time -- from your computer, phone or tablet. Get stuff done with or without an internet connection. Use Docs to edit Word files. Free from Google.</div></div><div class="bookmark-href"><img src="https://accounts.google.com/favicon.ico" class="icon bookmark-icon"/>https://docs.google.com/document/d/1JZ4OyrlRGaJHKsf5HH_rceG53mhJGXQTzz1-stNcdw4/edit#</div></div><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="bookmark-image"/></a></figure><p id="9de45cd6-138c-4f1b-8f8e-51cbdd639799" class="">
+</p><figure id="e9a5157d-de0a-4209-8f2b-7a9527369d5b" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%202.png"><img style="width:336px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%202.png"/></a></figure><hr id="d8d688a6-9297-4a03-9994-95a743160617"/><p id="159376e8-ea15-4f93-9638-71b2515acd12" class=""><strong>Defining which reachable states from </strong><strong><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>S</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">N(S)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></strong><strong> do we want to include in the </strong><strong><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N(s),s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></strong><strong> i.e. set of legal neighbours</strong></p><p id="2544222b-76a0-46c1-80ed-5888cd228361" class="">One common way to select the set of legal neighbours would be to judge each neighbour on the value of the objective function for that particular neighbour. Note: Here are assuming that the optimisation function needs to be minimised. Neighbours can be classified into 3 types: based on how they perform in comparison to the current state.<div class="indented"><ol id="802bd36a-b27c-49da-ab4b-9e8b963faebd" class="numbered-list" start="1"><li>Local improvement: In this case, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> consists of those neighbours in N(s) where the value of objective function is less than the value of the objective function in the current state<p id="b2f6b57c-c1ba-4ea9-bb16-165a3d94345c" class="">Clearly,this can be represented as follows: </p><p id="f68a443c-d558-4c20-96db-84bb7cd42d9c" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> = {n in N | <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> &lt; f(s) }</p></li></ol><ol id="0c413bf7-5afa-48ee-90d8-444fbf63b782" class="numbered-list" start="2"><li>No degradation : In this case, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> consists of those neighbours in N(s) where the value of objective function is less than or equal to the value of the objective function in the current state<p id="5ab17ed2-0849-4da5-9fb2-16e2a5dd213d" class="">Clearly,this can be represented as follows: </p><p id="8c7a8218-61e1-4aae-81be-edd7a840b14a" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> = {n in N | <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(n))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> ≤ f(s) }</p></li></ol><ol id="16ac56f6-e993-4b86-9fa2-df8961596d61" class="numbered-list" start="3"><li>Potential degradation: In this case, <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> consists of all neighbours in N(s) irrespective of value of objective function<p id="bee28e80-abf4-4455-b5bb-a575bc0b3906" class="">Clearly,this can be represented as follows: </p><p id="756433ef-3290-4e8b-8cf3-2d256ef5d36a" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo stretchy="false">(</mo><mi>N</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L(N,s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">L</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> = <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span></p><hr id="b0678b4c-fda9-44b8-8166-730ec304f28a"/><p id="40bcc43e-bec4-4be1-8449-b7d6811331ea" class="">
+</p><hr id="e7df3eda-4603-4ef1-ae13-af302d11ecd6"/><figure id="783edede-4546-4c7f-af30-9ee4cd375717" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%203.png"><img style="width:336px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%203.png"/></a></figure><hr id="d7e9cc41-7874-49e7-86de-389cab009005"/><hr id="e43d66c8-a211-44a1-837e-82693c1a947d"/><hr id="cc78ba32-6569-4a99-a065-33b06b938ec2"/><p id="34490e3a-6960-4e33-944f-52ca71b66501" class="">
+</p><figure id="a9b3cf7a-ebee-4b24-b36f-c0b1393f2fcf" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%204.png"><img style="width:336px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%204.png"/></a></figure><p id="39eb5d48-d898-4334-b76b-9da01f3e3077" class="">
+</p><p id="ecd8ab50-cd0b-4114-8623-21ef476bb47f" class=""><strong>UNDERSTANDING OF BEST NEIGHBOUR VS BEST IMPROVEMENT (confirm this):</strong></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9e1ae837-711a-4ef0-bdd9-e6a20b619d38"><div style="font-size:1.5em"><span class="icon">⚙</span></div><div style="width:100%">Currently, I am not sure where <strong>best neighbour</strong> can be applied except for passing it as an argument to the <strong>best improvement</strong> algorithm.</div></figure><p id="b3c6e5c7-e755-4fd7-a5e5-bac5ba9807ef" class="block-color-gray_background">In Best neighbour, there is no legality criteria. Let&#x27;s say that I am on state 2 currently. And all neighbours of 2 ie in the set N(2) have value of optimisation function worse than 2. Even then, despite 2 having a more favourable optimisation function value, I still choose one of the neighbours which is least worse.</p><hr id="71be458d-03b1-4921-b548-1e130052c28a"/><p id="fc5585fe-960e-4ce0-a4bb-a4f19acc0dbf" class="block-color-gray_background">In Best improvement, there is a legality condition as described by the &#x27;local improvement&#x27;. So, in case no neighbour has a more favourable optimisation function value than the current state, then set of legal possible neighbours would be empty and hence, we would stay on the current state.</p><figure id="73503965-dddf-455b-872b-877b5a724815" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%205.png"><img style="width:487px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%205.png"/></a></figure></li></ol></div></p><h3 id="e88f81f5-c411-4c2e-8b98-aa99bbda275e" class="">First Neighbour</h3><p id="a637abbc-b09b-401d-a13c-709ae00972eb" class="">Basically, <strong>first improvement</strong> algorithm is quite obvious from the name itself. Instead of visiting all legal neighbours and choosing the one in which we get the best improvement (if many such vertices exist, we choose one among them randomly); while traversing through the set of all neighbours, we choose the first vertex which satisfies the legality criteria.</p><figure id="69926312-3757-4073-874e-d5c332af20c2" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%206.png"><img style="width:485px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%206.png"/></a></figure><h3 id="6c286154-e776-4614-8af6-882dce5a3af2" class="">Multi-stage heuristics</h3><p id="235ee455-bdae-4d3f-9917-60c3723b0561" class="">
+</p><div id="60505f98-c7e0-4437-8679-7ec4e9cca9ac" class="column-list"><div id="230c31ee-05fa-4636-896e-70e4172192b0" style="width:50%" class="column"><figure id="d15d982a-ca77-42ef-8ca0-a8bfd6960a52" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%207.png"><img style="width:384px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%207.png"/></a></figure></div><div id="20d61b99-84fa-4f63-a49a-24799273e36d" style="width:50%" class="column"><figure id="600cf596-37af-4dea-aa61-81eff70076ce" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%208.png"><img style="width:432px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%208.png"/></a></figure></div></div><p id="ad5283f3-1caf-4fbc-bbf0-c3384d93c7e4" class="">So, basically for the N-queens problem, we can explore the neighbourhood in 3 potential ways:</p><ul id="fa91a932-7000-40af-874c-8950148c2df3" class="toggle"><li><details open=""><summary><strong>The 3 ways for N QUEENS PROBLEM</strong></summary><p id="9af1fb38-95ed-47eb-8c8c-2af48ee01f82" class=""><strong>Way 1 : Max/min conflict </strong>→ So, we essentially decide the selection of the next neighbour in 2 stages. First, we choose the queen <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> which is occurring in maximum number of violations and then we choose the new position of queen <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> (after iterating through all positions this selected queen can reach by one just one valid chess move) which helps to get rid of maximum number of currently existing violations.</p><p id="277649df-8755-4eb5-8ed4-f5b79e7a8b80" class="">Time complexity : O(N) for deciding which queen to select and then O(N) for selecting which move that queen should make <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≡</mo></mrow><annotation encoding="application/x-tex">\equiv</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46375em;vertical-align:0em;"></span><span class="mrel">≡</span></span></span></span></span><span>﻿</span></span> <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></p><p id="e4ca7504-3cbf-4127-bbc0-4fa949e6b5e0" class=""><strong>Way 2: Min-conflict heuristic </strong>→ Here, we try to select the queen <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> randomly and then take <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> to select the best move for this queen <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Q</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Q&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>. Overall complexity: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></p><p id="1273ead2-2879-46b5-bdd6-0492fce94d5a" class=""><strong>Way 3: </strong><strong>BRUTE FORCE</strong><strong> </strong>→ Explore each and every move by each queen and see which move reduces maximum number of currently existing violations. Overall Complexity : <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span></p></details></li></ul><p id="a0d1fdd0-56fa-4ddd-9c2e-01db8d60b647" class="">All the 3 ways are based on a greedy approach and hence, it seems better to not waste time in an <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> algorithm since it does not guarantee optimality. By using one of ways 1 or 2, we may use the time we saved (as compared to way 3) to explore configurations.</p><p id="951ffbd6-3b5a-4bca-bc54-b71e57f808bd" class=""><strong>Multistage heuristics in Car Scheduling Problem</strong></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="4a45fc71-7b55-48c1-84cd-8ea84ad78b30"><div style="font-size:1.5em"><span class="icon">⚙</span></div><div style="width:100%">We had initially defined a state <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>S</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">S&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> to be in neighbourhood of state <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span></span><span>﻿</span></span> if <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>S</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">S&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> can be reached from <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span></span><span>﻿</span></span> by swapping the positions of 2 cars of different types (with a different set of demands).</div></figure><figure id="0eb5273d-c47c-4bcf-aab9-dc0fada7f596" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%209.png"><img style="width:576px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%209.png"/></a></figure><p id="38ae7538-5cab-4c4a-9ba0-958df02b86a3" class=""><strong>Way 1: Quadratic neighbourhood</strong></p><p id="f29121bc-06fc-4861-af92-90bb16e1d2bc" class="">Here we try to swap each possible pairs of cars (where the cars have a different set of requirements) and check if this offers us the most improvement. This will lead to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> possible pairings.</p><p id="5af03cb6-5cf9-4091-92fc-f50d742566aa" class=""><strong>Way 2: Multistage neighbourhood</strong></p><p id="27e07b4f-f603-4436-af9d-61cb2004be5b" class="">Alternatively, we can select a car <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span></span><span>﻿</span></span> which is present in some violations (denoted in diagram by red) and try all possible swaps which include car <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi></mrow><annotation encoding="application/x-tex">C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span></span><span>﻿</span></span> and choose the best possible move from here. This will lead to <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> computations. </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="39da22d4-ab7c-4ead-a76c-09edccf41862"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Way 1 offers the best move but way 2 offers a very good move in very less amount of time. So, again there is a trade-off between the time of the move and the quality of the move.</div></figure><hr id="56f61eb2-1d5f-4c15-8423-d26409483683"/><h3 id="60ccfa3b-f899-4c4d-af4f-9fb64c1424cb" class="">Random Walks</h3><p id="ad898006-2067-4de4-a79e-5301faf3cfef" class="">Choose a neighbour at random and decide whether to accept it or not. If we decide not to accept it, we stay in the same state. Some of the best solutions to the travelling tournament problem were based on random walks. In TTP, some local moves were going to take as bad as <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>N</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span> complexity and hence, using random walks experimentally gave better results in the past.</p><p id="d62b093a-215b-4d9c-9d87-36b91b312b9d" class="">
+</p><figure id="c5e3ccb9-a3cb-4f32-8058-871edf78e25f" class="image"><a href="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%2010.png"><img style="width:687px" src="Local%20search%20notes%2086050e006318436eb486f5f6dcf77df5/Untitled%2010.png"/></a></figure><h1 id="f62e9879-3440-4a14-8ebb-5d1084a237fb" class="">LECTURE 8: iterated location search, metropolis heuristic, simulated annealing, tabu search intuition</h1><h2 id="735645bf-2c03-4ee2-ba79-de06583bfe8b" class="">META-HEURISTICS</h2><p id="ff6be6b6-abc4-47ee-8728-b7df6b4d05bf" class="">Metaheuristics are aimed at avoiding getting stuck at local minimas which represent poor quality solutions.</p><h3 id="ec123bf8-6b6f-4612-9679-b6879dffe2fc" class="">Iterated local search</h3><h3 id="dc5698ed-a199-47b0-b087-a5ce5e7de8eb" class="">Metropolis Heuristic</h3><h3 id="42e40764-cbda-4f11-b9cc-0cdde7ad083f" class="">Simulated Annealing</h3><h3 id="7d9aed7b-7e48-4d13-b7a0-fd912a1ed396" class="">Tabu Search</h3><p id="bdd390b9-c02a-4bfe-ae61-b55ec56aa4de" class="">
+</p><h1 id="c43e0407-ed10-4a08-aeb0-5794d43b8dcd" class=""><strong>LECTURE 9</strong></h1><ul id="6b3558eb-c05c-48a9-a8be-44d8cd0676ab" class="bulleted-list"><li>Tabu search may be extremely non-intuitive</li></ul><ul id="e6679625-fa29-4293-ab45-f7ead850cd8a" class="bulleted-list"><li>Idea of tabu search is once you have entered a particular state, you don’t want to go back to that particular state-&gt; you mark it as TABU</li></ul><ul id="aab82d13-7be2-4eac-a769-ec07431d489d" class="bulleted-list"><li>The most general way to implement Tabu Search is to go the best neighbour which you have not yet explored.</li></ul><ul id="421c5c08-9d37-4e6b-9223-585812866517" class="bulleted-list"><li>BUT IS VERY EXPENSIVE TO keep track of all the configurations which we have visited so far;</li></ul><ul id="af54258e-49ee-42f8-bcb1-9d27864d759e" class="bulleted-list"><li>Timewise it is expensive as knowing whether a node has been already visited would need iterating through all the already visited states and checking for equality</li></ul><ul id="e1362e02-3d0d-4840-96e1-96b2dcc80cdb" class="bulleted-list"><li>Memory Wise it is expensive as we would have to potentially store large number of decision variables for each previously visited configuration</li></ul><ul id="ab761ac2-9542-4172-abfd-ca7f6e4a0ef0" class="bulleted-list"><li>One soln which seems intuitive as well is that we keep only the last ‘x’ visited configs in the list (ie suffix of the originally proposed list). Intuitively speaking, this makes sense as a current contender for neighborhood, after making a large number of iterations, is unlikely to be the same as the nodes visited many iterations back as we hope to have made atleast some progress.</li></ul><ul id="95a6ec70-694c-4fb3-b21e-f79ecc2d68e9" class="bulleted-list"><li>Even keeping a suffix of the <strong>visited list</strong> can prove to be expensive.</li></ul><ul id="aa86034f-b272-46ba-b594-00495b73bdd8" class="bulleted-list"><li>This is the O(n^2) car sequencing greedy algo</li></ul><figure id="ecab343f-94d1-42a6-a770-63882a687e3e" class="image"><a href="https://lh3.googleusercontent.com/Nvtbk9EGwaB2aJWQHmgbuV3chMyvpdKk0wynAV8fhlcSRLRi5zedLzO3F16UGHf6KkyXeyugGJWsKonicffwsvOZr1XJcA0H-XNVjXk3LPutVyR9xFtNv75x0aJqPRHyWeaD6H3S"><img src="https://lh3.googleusercontent.com/Nvtbk9EGwaB2aJWQHmgbuV3chMyvpdKk0wynAV8fhlcSRLRi5zedLzO3F16UGHf6KkyXeyugGJWsKonicffwsvOZr1XJcA0H-XNVjXk3LPutVyR9xFtNv75x0aJqPRHyWeaD6H3S"/></a></figure><ul id="b9c9d410-e250-4396-a968-1968f95589a1" class="bulleted-list"><li>From a memory point of view, we can only store the swaps( the move made to go from prev item in the list to the current item in the list) which in this case would be the id’s of the 2 slots which were swapped.</li></ul><ul id="c04a2a0d-d7bd-40b0-b19f-59d8c01c77b0" class="bulleted-list"><li><strong>DOUBT (clarified later in the lecture): </strong><strong>He says that I only need to check whether a particular swap has been repeated to ensure no repetition, but this is obviously false I think as the swaps could have been between the same slot IDs but with different cars on them.</strong></li></ul><ul id="f24647cc-2f8f-4002-a03f-44ebafa61ea3" class="bulleted-list"><li>It seems that Prof is trying to say that a user-defined Tabu should be to prevent slots(i,j) which have been recently swapped from being swapped again, for at least some number of future iterations.</li></ul><ul id="3820990d-add9-4d4e-a782-f3a9ebd7cde1" class="bulleted-list"><li>If all moves are tabu, we will wait till the counter is incremented enough for a move to be not Tabu.</li></ul><ul id="c8e3dc29-ca0d-46d0-a90c-0bcea0399b8a" class="bulleted-list"><li>This strategy is still weak since there is a chance we will keep going in cycles.</li></ul><ul id="a9595338-395b-4a5a-971a-df9d6865acaa" class="bulleted-list"><li>Also, as I earlier suspected, the Tabu can prevent us from considering going back to an unvisited config just because the (i,j) tuple value is still more than the counter.</li></ul><ul id="fbd282a3-d92f-4206-94a8-45781485e5bb" class="bulleted-list"><li>To reduce the probability of us not considering going into an unvisited state, we can store extra info about each move -&gt; (a_i,b_i,f_i,f_i+1) where a_i and b_i are slots being swapped and f_i is obj function before swapping and f_(i+1) is obj function value after swapping.</li></ul><ul id="7398e67b-8520-45d7-ac9e-5c67ad5e71a3" class="bulleted-list"><li>Also, this tabu search can also be applied to the multistage heuristic discussed earlier where we select a slot(which is definitely violating some constraint) and try to find the best swap for it. Here, Tabu search implementation will still remain the same.</li></ul><ul id="d57e738a-09e6-4726-bbc0-90ca6a51f9b6" class="bulleted-list"><li>For the n-queens problem, we can store the queen number ‘i’ and the value of its decision variable x_i as &lt;i,x_i&gt; and make sure that the queen cannot go into that position for atleast some amount of time.</li></ul><ul id="5aaac6d7-c142-48b6-8089-d3847f310752" class="bulleted-list"><li>Alternatively, we can impose a restriction that we cannot change the value of a decision variable for some time.</li></ul><ul id="41dbf72d-4bd2-462f-9cd5-e55536b88dc8" class="bulleted-list"><li>But sometimes a tabu’ed move may be extremely promising(better than the best result obtained until now) and in such a case, we would make this move even though it isn’t allowed as per TABU restrictions.</li></ul><ul id="d13135dc-e056-49d3-aa3b-1e2fb4f8933f" class="bulleted-list"><li><figure id="ed4fd51a-64a0-45b5-ae16-434e9357e127" class="image"><a href="https://lh6.googleusercontent.com/T9ARfRFVuy3neEWB_ZVV-zpj_pCRk3yhpuG9mGDUMxdj3LKkM11eyyiviBSUZxJe_W_kP7dQElF9o4B0VON8LYil2nf6iKLMHNLKa_ADtatcHAwFbMzV5c8c9S78IYEUQBOXgQQD"><img src="https://lh6.googleusercontent.com/T9ARfRFVuy3neEWB_ZVV-zpj_pCRk3yhpuG9mGDUMxdj3LKkM11eyyiviBSUZxJe_W_kP7dQElF9o4B0VON8LYil2nf6iKLMHNLKa_ADtatcHAwFbMzV5c8c9S78IYEUQBOXgQQD"/></a></figure><p id="c1690e89-2f04-4933-ac19-b8bdb81d4681" class="">
+</p></li></ul><ul id="7c694ae7-cdb1-434c-bfd5-65a34c9401fe" class="bulleted-list"><li><strong>However, the above technique still feels wrong as why would I even bother to check the value of the optimization function after a TABUed move.</strong></li></ul><h3 id="829dadc9-0c97-4994-a63e-2cda21cee309" class="">Sample for MIP</h3><figure id="56adf103-2612-480f-a228-19f4a2c908a6" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>11</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mn>12</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub><msub><mi>x</mi><mi>n</mi></msub><mo>≤</mo><mtext>or</mtext><mo>=</mo><mtext>or</mtext><mo>≥</mo><msub><mi>b</mi><mn>1</mn></msub><mspace linebreak="newline"></mspace><msub><mi>a</mi><mn>21</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mn>22</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub><msub><mi>x</mi><mi>n</mi></msub><mo>≤</mo><mtext>or</mtext><mo>=</mo><mtext>or</mtext><mo>≥</mo><msub><mi>b</mi><mn>2</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mspace linebreak="newline"></mspace><msub><mi>a</mi><mrow><mi>m</mi><mn>1</mn></mrow></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mrow><mi>m</mi><mn>2</mn></mrow></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><msub><mi>a</mi><mrow><mi>m</mi><mi>n</mi></mrow></msub><msub><mi>x</mi><mi>n</mi></msub><mo>≤</mo><mtext>or</mtext><mo>=</mo><mtext>or</mtext><mo>≥</mo><msub><mi>b</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex">
+a_{11}x_{1} + a_{12}x_{2} + ... + a_{1n}x_{n} \leq \text{or} = \text{or} \geq b_{1} \\
+a_{21}x_{1} + a_{22}x_{2} + ... + a_{2n}x_{n} \leq \text{or} = \text{or} \geq b_{2} ... \\
+a_{m1}x_{1} + a_{m2}x_{2} + ... + a_{mn}x_{n} \leq \text{or} = \text{or} \geq b_{m}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord text"><span class="mord">or</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure></div></article>
+
+
+
+
+
+	</body></html>
