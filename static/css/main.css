@@ -1,5 +1,5 @@
 /* Global settings */
-
+/* Contains CSS for navbar */
 * {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -210,7 +210,8 @@ video {
 
 .copyright {
   font-size: 0.75rem;
-  color: rgba(255,255,255,.25);
+  /* color: rgba(255,255,255,.25); */
+  color: gray;
   display: none;
 }
 @media (min-width: 1160px) {
@@ -372,7 +373,8 @@ h1.page-title {
   overflow: hidden;
   margin-left: -1rem;
   margin-right: -1rem;
-  color: #ccc;
+  /* color: #ccc; */
+  color: black;
   text-align: center;
 }
 
@@ -415,8 +417,10 @@ a.pagination-item:hover {
 .sidebar {
   text-align: center;
   padding: 1rem 1rem;
-  color: rgba(255,255,255,.5);
-  background-color: #1d0040;
+  /* color: rgba(255,255,255,.5); */
+  color: black;
+  /* background-color: black; */
+  background-color: #41B3A3;
 }
 @media (min-width: 1160px) {
   .sidebar {
@@ -433,13 +437,17 @@ a.pagination-item:hover {
 /* Sidebar Links */
 
 .sidebar a {
-  color: #fff;
+  /* color: #fff; */
+  color: black;
+  /* color: red; */
 }
 
 /* About Section */
 
 .sidebar-about h1 {
-  color: #fff;
+  /* color: #fff; */
+  color: black;
+  /* color: red; */
   margin-top: 0;
   font-family: "Source Code Pro", Menlo, Monaco, "Courier New", monospace;
   font-weight: 500;
@@ -544,17 +552,3 @@ input[type=checkbox]:checked ~ .menu-label:after {
   box-shadow: 0px 2px 5px 2px #ccc;
 }
 
-/*
- * Copyright (c) Anish Athalye. Based on poole/hyde by @mdo, which is released
- * under a MIT license. Original license text is included below:
- *
- * ---
- *
- * Designed, built, and released under MIT license by @mdo. Learn more at
- * https://github.com/poole/hyde.
- *
- * ---
- *
- * The full license for the original source can be found at
- * https://github.com/poole/hyde/blob/master/LICENSE.md.
- */
