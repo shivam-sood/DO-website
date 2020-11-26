@@ -630,59 +630,59 @@ blockquote {
 	<div class="sidebar">
 		<div class="container sidebar-sticky">
 		  <div class="sidebar-about">
-			<h1>Discrete Optimization</h1>
-			<!-- <p class="tagline"># Team R</p> -->
+		  <h1>Discrete Optimization</h1>
 		  </div>
-	  
+		
 		  <input type="checkbox" id="menu-icon">
 		  <label class="menu-label" for="menu-icon"></label>
 		  <div class="trigger">
-			<ul class="sidebar-nav">
+		  <ul class="sidebar-nav">
+			<li class="sidebar-nav-item">
+			  <a href="index.html">Home</a>
+			  </li>
+		  
+		  
 			  <li class="sidebar-nav-item">
-				<a href="{{ url_for('main') }}">Home</a>
+				<a href="local.html">Local Search notes</a>
+			  </li>
+		  
+			  <li class="sidebar-nav-item">
+				<a href="lp.html">Linear Programming notes</a>
+			  </li>
+		  
+			  <li class="sidebar-nav-item">
+				<a href="cp.html">Constraint Programming notes</a>
+			  </li>
+			  <li class="sidebar-nav-item">
+				<a href="branch.html">Branch and Bound notes</a>
+			  </li>
+			  <li class="sidebar-nav-item">
+				<a href="#">TSP notes</a>
 				</li>
+				<li class="sidebar-nav-item">
+				<a href="gavel.html">Gavel notes</a>
+				</li>
+			  <li class="sidebar-nav-item">
+				<a href="http://shivam-sood.azurewebsites.net/tsp">TSP Visualizer</a>
+			  </li>
+		  
+			  <li class="sidebar-nav-item">
+				<a href="http://shivam-sood.azurewebsites.net/sack">Knapsack Solver</a>
+			  </li>
+		  
+			  <li class="sidebar-nav-item">
+				<a href="http://shivam-sood.azurewebsites.net/graph">Gavel Graph Creator</a>
+			  </li>
 			
+		
 			
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('local') }}">Local Search notes</a>
-				</li>
-			
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('lp') }}">Linear Programming notes</a>
-				</li>
-			
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('cp') }}">Constraint Programming notes</a>
-				</li>
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('branch') }}">Branch and Bound notes</a>
-				</li>
-				<li class="sidebar-nav-item">
-				  <a href="#">TSP notes</a>
-				  </li>
-				  <li class="sidebar-nav-item">
-					<a href="{{ url_for('gavel') }}">Gavel notes</a>
-					</li>
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('tsp') }}">TSP Visualizer</a>
-				</li>
-			
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('sack') }}">Knapsack Solver</a>
-				</li>
-			
-				<li class="sidebar-nav-item">
-				  <a href="{{ url_for('graph') }}">Gavel Graph Creator</a>
-				</li>
-	  
-			  
-	  
-			</ul>
+		
+		  </ul>
 		  </div>
-	  
+		
 		  <p class="copyright">&copy; 2020. All rights reserved.</p>
 		</div>
-	  </div>
+		</div>
 	
 	
 	<article id="c7b18043-b621-4819-b293-31764cfe1539" class="page sans"><header><h1 class="page-title">TSP specific heuristics </h1></header><div class="page-body"><h2 id="000e9c94-e814-4c93-9c31-b4d8a9c6b60e" class="">: Compiled by Anmol Agarwal</h2><h2 id="3013d9b6-30a3-46df-8eaf-9b8f8e5c2979" class="">Description</h2><p id="82574c73-a740-45d6-97e5-e41416a787d4" class="">The travelling salesman problem asks the following question: &quot;Given a list of cities and the distances between each pair of cities, what is the shortest possible route that visits each city exactly once and returns to the origin city?&quot;</p><figure id="1f54581c-3fed-4d8a-bf7d-a62ead7af990" class="image"><a href="static/tsp_Untitled.png"><img style="width:737px" src="static/tsp_Untitled.png"/></a></figure><p id="d27c52b9-3835-4788-9771-6a59877f0ace" class="">If someone hands us a solution, then we can check easily that it does lead to the value it claims and is it a valid ordering. This property makes the TSP a member of the class known as NP, consisting of all problems for which we can check the correctness of a solution in polynomial time. The pair of letters stands for non-deterministic polynomial. The unusual name aside, this is a natural class of problems: when we make a computational request, we ought to be able to check that the result meets our specifications.</p><h3 id="f35ecdc7-a9b8-4dcf-af23-487320179466" class="">Timeline of our journey while doing the TSP assignment on Coursera</h3><p id="cee8f20d-57a1-4900-bc2a-d4ab1c96c624" class="">We did this assignment primarily over a span of 2-3 days while experimenting with new heuristics over the course of a week.</p><h3 id="ccb80687-3b7a-4104-9882-a8b5494fb95d" class="">Nearest neighbour</h3><p id="53fa8a6b-409f-4526-90da-4c8340a04226" class="">Nearest Neighours (NN) is one of the simplest greedy heuristics which is the first one which pops to mind. Unlike local search heuristics which makes changes on an already formed ordering, this method is constructive in the sense that it starts with an initial city and chooses the next city as the city closest to the current city which hasn&#x27;t been visited yet. As we can see in the image below, even on one of the smaller test cases, the performance is poor as is evident from the numerous edges crossing each other.</p><p id="e2f5f806-6f78-4550-80e3-8557293476ea" class="">
